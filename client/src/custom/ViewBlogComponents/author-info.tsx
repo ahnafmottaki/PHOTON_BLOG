@@ -1,0 +1,46 @@
+import React from "react";
+import { User, Mail, FileText } from "lucide-react";
+import type { Author } from "./blog-related-types";
+
+interface AuthorInfoProps {
+  author: Author;
+}
+
+const AuthorInfo: React.FC<AuthorInfoProps> = ({ author }) => {
+  return (
+    <div className="bg-gray-50 p-6 rounded-lg my-10">
+      <div className="flex items-center gap-6">
+        <img
+          src={author.avatarUrl}
+          alt={author.name}
+          className="w-20 h-20 rounded-full object-cover shadow-sm shrink-0"
+        />
+        <div>
+          <h3 className="text-xl font-bold text-gray-800">{author.name}</h3>
+          <p className="text-gray-600 mt-1">{author.bio}</p>
+        </div>
+      </div>
+      <div className="mt-4 pt-4 border-t border-gray-200 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-gray-600">
+        <div className="flex items-center gap-2">
+          <User className="h-5 w-5 text-gray-500" />
+          <span>{author.username}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Mail className="h-5 w-5 text-gray-500" />
+          <a
+            href={`mailto:${author.email}`}
+            className="hover:text-blue-600 transition-colors"
+          >
+            {author.email}
+          </a>
+        </div>
+        <div className="flex items-center gap-2">
+          <FileText className="h-5 w-5 text-gray-500" />
+          <span>{author.postsCount} Posts</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AuthorInfo;

@@ -1,5 +1,5 @@
 import { BookType, ImagePlus, ImageUpscale, Rows4 } from "lucide-react";
-import { SectionType, type BlogSection } from "./add-blog.type";
+import { SectionType, type SectionLiterals } from "./add-blog.type";
 
 const ACTIVE_BUTTONS = [
   { type: SectionType.HEADING, icon: <BookType />, label: "Heading" },
@@ -11,8 +11,9 @@ const ACTIVE_BUTTONS = [
     label: "Image & Text",
   },
 ];
+
 interface ToolsType {
-  onAddSection: (section: BlogSection) => void;
+  onAddSection: (section: SectionLiterals) => void;
 }
 const Tools = ({ onAddSection }: ToolsType) => {
   return (
@@ -25,7 +26,7 @@ const Tools = ({ onAddSection }: ToolsType) => {
           {ACTIVE_BUTTONS.map((btn) => (
             <button
               key={btn.type}
-              onClick={() => onAddSection()}
+              onClick={() => onAddSection(btn.type)}
               className="flex flex-col bg-secondary text-secondary-foreground items-center justify-center p-4  hover:bg-destructive hover:text-destructive-foreground rounded-lg transition-colors "
             >
               {btn.icon}
