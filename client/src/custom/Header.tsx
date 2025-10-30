@@ -1,10 +1,10 @@
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 import { Button } from "@/components/ui/button";
 import { TextAlignJustify, X } from "lucide-react";
 import React from "react";
 import { ModeToggle } from "@/components/mode-toggle";
 
-const NavLink = ({
+const MyNavLink = ({
   path,
   children,
 }: {
@@ -12,12 +12,16 @@ const NavLink = ({
   children: React.ReactNode;
 }) => {
   return (
-    <Link
+    <NavLink
       to={path}
-      className="text-base font-medium text-foreground transition-all duration-200 rounded focus:outline-none  hover:text-destructive focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
+      className={({ isActive }) =>
+        `text-base font-medium  transition-all duration-200 rounded focus:outline-none ${
+          isActive ? "text-destructive underline" : "text-foreground"
+        }  hover:text-destructive hover:underline`
+      }
     >
       {children}
-    </Link>
+    </NavLink>
   );
 };
 
@@ -28,20 +32,24 @@ const Header = () => {
   };
   const navLinks = (
     <>
-      <NavLink path="/features">Features</NavLink>
-      <NavLink path="/blogs">Blogs</NavLink>
-      <NavLink path="/automation">Profile</NavLink>
-      <NavLink path="/addBlog">Add Blog</NavLink>
-      <NavLink path="/myBlogs">My Blogs</NavLink>
+      <MyNavLink path="/features">Features</MyNavLink>
+      <MyNavLink path="/blogs">Blogs</MyNavLink>
+      <MyNavLink path="/automation">Profile</MyNavLink>
+      <MyNavLink path="/addBlog">Add Blog</MyNavLink>
+      <MyNavLink path="/myBlogs">My Blogs</MyNavLink>
     </>
   );
   return (
-    <>
-      <header className="py-4 md:py-6">
+    <div className="overflow-x-hidden bg-background">
+      <header className="py-4 md:py-6 ">
         <div className="container px-4 mx-auto sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             <div className="shrink-0">
-              <h1 className="text-3xl font-bold text-primary">Photon</h1>
+              <Link to={"/"}>
+                <h1 className="text-3xl font-bold text-primary cursor-pointer ">
+                  Photon
+                </h1>
+              </Link>
             </div>
 
             <div className="flex lg:hidden items-center gap-3">
@@ -68,7 +76,7 @@ const Header = () => {
             </div>
 
             <div className="hidden lg:ml-auto lg:flex lg:items-center lg:space-x-10">
-              <NavLink path="/login">Login</NavLink>
+              <MyNavLink path="/login">Login</MyNavLink>
               <Link to={"/register"}>
                 <Button size={"rlg"}>Sign up</Button>
               </Link>
@@ -84,7 +92,7 @@ const Header = () => {
             <div className="px-1 py-8">
               <div className="grid gap-y-7 text-center">
                 {navLinks}
-                <NavLink path="/login">Login</NavLink>
+                <MyNavLink path="/login">Login</MyNavLink>
                 <Link to={"/register"}>
                   <Button className="w-full" size={"rlg"}>
                     Sign up
@@ -95,7 +103,7 @@ const Header = () => {
           </nav>
         </div>
       </header>
-    </>
+    </div>
   );
 };
 

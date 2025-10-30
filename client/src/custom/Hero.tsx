@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import Header from "./Header";
 import { Play } from "lucide-react";
 import { Link } from "react-router";
 import heroImage from "@/assets/image/heroImage2.jpg";
@@ -7,8 +6,6 @@ import heroImage from "@/assets/image/heroImage2.jpg";
 const Hero = () => {
   return (
     <div className="overflow-x-hidden bg-background">
-      <Header />
-
       <section className="pt-12 bg-background sm:pt-16">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
