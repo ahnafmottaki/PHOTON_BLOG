@@ -13,7 +13,7 @@ const ImageSection: React.FC<ImageSectionProps> = ({ imageUrl, caption }) => {
         alt={caption}
         className="w-full h-auto rounded-lg shadow-lg object-cover"
       />
-      <figcaption className="text-center text-sm text-gray-500 mt-3 italic">
+      <figcaption className="text-center text-sm text-accent-foreground mt-3 italic">
         {caption}
       </figcaption>
     </figure>

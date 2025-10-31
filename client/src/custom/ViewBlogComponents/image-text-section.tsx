@@ -21,8 +21,10 @@ const ImageTextSection: React.FC<ImageTextSectionProps> = ({
         />
       </div>
       <div className="md:w-1/2">
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">{title}</h2>
-        <p className="text-lg text-gray-600 leading-relaxed">{text}</p>
+        <h2 className="text-3xl font-bold text-muted-foreground mb-4">
+          {title}
+        </h2>
+        <p className="text-lg text-accent-foreground leading-relaxed">{text}</p>
       </div>
     </div>
   );

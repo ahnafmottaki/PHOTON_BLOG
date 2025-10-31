@@ -44,7 +44,7 @@ const Hero = () => {
           <div className="relative">
             <div className="absolute inset-0 h-2/3 bg-background"></div>
             <div className="relative mx-auto">
-              <div className="lg:max-w-6xl lg:mx-auto rounded-xl overflow-hidden outline-4 outline-foreground ">
+              <div className="lg:max-w-6xl lg:mx-auto rounded-xl overflow-hidden sm:outline-4 outline-foreground ">
                 <img className="transform scale-110 " src={heroImage} alt="" />
               </div>
             </div>

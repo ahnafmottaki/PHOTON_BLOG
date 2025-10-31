@@ -5,7 +5,11 @@ interface ParagraphProps {
 }
 
 const Paragraph: React.FC<ParagraphProps> = ({ text }) => {
-  return <p className="text-lg text-gray-600 leading-relaxed mb-6">{text}</p>;
+  return (
+    <p className="text-lg text-accent-foreground leading-relaxed mb-6">
+      {text}
+    </p>
+  );
 };
 
 export default Paragraph;

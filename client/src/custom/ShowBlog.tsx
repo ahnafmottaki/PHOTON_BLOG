@@ -32,8 +32,8 @@ const renderSection = (
 };
 const ShowBlog: React.FC<{ blog: BlogType }> = ({ blog }) => {
   return (
-    <main className="row ">
-      <article className="bg-white p-6 sm:p-10 rounded-xl shadow-xl">
+    <main className="row">
+      <article className="bg-card  p-6 sm:p-10 rounded-xl shadow-xl">
         {blog.sections.map((section) => renderSection(section))}
         <div className="my-10 border-t border-gray-200" />
         <AuthorInfo author={blog.authorInfo} />

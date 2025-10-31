@@ -6,7 +6,7 @@ interface BlogHeaderProps {
 
 const BlogHeader: React.FC<BlogHeaderProps> = ({ title }) => {
   return (
-    <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800 tracking-tight leading-tight mb-8">
+    <h1 className="text-4xl md:text-5xl font-extrabold text-mutated-foreground tracking-tight leading-tight mb-8">
       {title}
     </h1>
   );
