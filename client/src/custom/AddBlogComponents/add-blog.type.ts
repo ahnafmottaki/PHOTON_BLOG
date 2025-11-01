@@ -19,14 +19,18 @@ export interface ParagraphType {
   text: string;
 }
 
-export interface ImageType {
+interface FileType {
+  file: File | null;
+}
+
+export interface ImageType extends FileType {
   id: string;
   type: typeof SectionType.IMAGE;
   url: string;
   caption: string;
 }
 
-export interface ImageAndTextType {
+export interface ImageAndTextType extends FileType {
   id: string;
   type: typeof SectionType.IMAGE_AND_TEXT;
   url: string;
