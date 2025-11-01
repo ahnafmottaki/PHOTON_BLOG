@@ -8,9 +8,11 @@ import AuthorInfo from "./ViewBlogComponents/author-info";
 import Engagement from "./ViewBlogComponents/engagements";
 import Comments from "./ViewBlogComponents/comments";
 
-const renderSection = (
-  section: BlogType["sections"][number]
-): React.ReactNode => {
+const RenderSection = ({
+  section,
+}: {
+  section: BlogType["sections"][number];
+}) => {
   switch (section.type) {
     case "heading":
       return <BlogHeader title={section.text} />;
@@ -37,7 +39,9 @@ const ShowBlog: React.FC<{ blog: BlogType; isDynamic: boolean }> = ({
   return (
     <main className="row">
       <section className="bg-card  p-6 sm:p-10 rounded-xl shadow-xl">
-        {blog.sections.map((section) => renderSection(section))}
+        {blog.sections.map((section) => (
+          <RenderSection key={section.id} section={section} />
+        ))}
         <div className="my-10 border-t border-gray-200" />
         <AuthorInfo author={blog.authorInfo} />
         <Engagement

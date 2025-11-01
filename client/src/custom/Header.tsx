@@ -7,12 +7,15 @@ import { ModeToggle } from "@/components/mode-toggle";
 const MyNavLink = ({
   path,
   children,
+  handleMenuOpen,
 }: {
   path: string;
   children: React.ReactNode;
+  handleMenuOpen?: () => void;
 }) => {
   return (
     <NavLink
+      onClick={handleMenuOpen}
       to={path}
       className={({ isActive }) =>
         `text-base font-medium  transition-all duration-200 rounded focus:outline-none ${
@@ -30,13 +33,33 @@ const Header = () => {
   const handleMenuOpen = () => {
     setIsMenuOpen(() => !isMenuOpen);
   };
-  const navLinks = (
+  const deskTopLinks = (
     <>
       <MyNavLink path="/features">Features</MyNavLink>
       <MyNavLink path="/blogs">Blogs</MyNavLink>
       <MyNavLink path="/automation">Profile</MyNavLink>
       <MyNavLink path="/addBlog">Add Blog</MyNavLink>
       <MyNavLink path="/myBlogs">My Blogs</MyNavLink>
+    </>
+  );
+
+  const mobileLinks = (
+    <>
+      <MyNavLink path="/features" handleMenuOpen={handleMenuOpen}>
+        Features
+      </MyNavLink>
+      <MyNavLink path="/blogs" handleMenuOpen={handleMenuOpen}>
+        Blogs
+      </MyNavLink>
+      <MyNavLink path="/automation" handleMenuOpen={handleMenuOpen}>
+        Profile
+      </MyNavLink>
+      <MyNavLink path="/addBlog" handleMenuOpen={handleMenuOpen}>
+        Add Blog
+      </MyNavLink>
+      <MyNavLink path="/myBlogs" handleMenuOpen={handleMenuOpen}>
+        My Blogs
+      </MyNavLink>
     </>
   );
   return (
@@ -72,7 +95,7 @@ const Header = () => {
             </div>
 
             <div className="hidden lg:flex lg:ml-16 lg:items-center lg:justify-center lg:space-x-10 xl:space-x-16">
-              {navLinks}
+              {deskTopLinks}
             </div>
 
             <div className="hidden lg:ml-auto lg:flex lg:items-center lg:space-x-10">
@@ -91,10 +114,16 @@ const Header = () => {
           >
             <div className="px-1 py-8">
               <div className="grid gap-y-7 text-center">
-                {navLinks}
-                <MyNavLink path="/login">Login</MyNavLink>
+                {mobileLinks}
+                <MyNavLink path="/login" handleMenuOpen={handleMenuOpen}>
+                  Login
+                </MyNavLink>
                 <Link to={"/register"}>
-                  <Button className="w-full" size={"rlg"}>
+                  <Button
+                    className="w-full"
+                    size={"rlg"}
+                    onClick={handleMenuOpen}
+                  >
                     Sign up
                   </Button>
                 </Link>

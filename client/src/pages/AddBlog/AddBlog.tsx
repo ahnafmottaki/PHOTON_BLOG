@@ -93,7 +93,7 @@ const AddBlog = () => {
       </section>
       {showPreview && (
         <DialogView onOverlayClick={handleShowPreview}>
-          <ShowBlog blog={{ sections, ...defaultBlog }} />
+          <ShowBlog blog={{ sections, ...defaultBlog }} isDynamic={false} />
         </DialogView>
       )}
     </>
