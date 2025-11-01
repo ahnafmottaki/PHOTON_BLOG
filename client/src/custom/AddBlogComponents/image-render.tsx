@@ -4,8 +4,6 @@ import DeleteWrapper from "./delete-wrapper";
 import { Button } from "@/components/ui/button";
 import { Edit } from "lucide-react";
 import useImageChanger from "../hooks/useImageChanger";
-import toast from "react-hot-toast";
-import { useEffect } from "react";
 
 interface ImageRenderProp {
   section: ImageType;
@@ -18,33 +16,8 @@ const ImageRender: React.FC<ImageRenderProp> = ({
   onDelete,
   onUpdate,
 }) => {
-  const { imageRef, handleImageClick } = useImageChanger();
-  useEffect(() => {
-    function handleImageChange(this: HTMLInputElement) {
-      const fileInput = this;
-      const files = fileInput.files;
-      if (!files) {
-        return;
-      }
-      const file = files[0];
-      if (!file.type.startsWith("image/")) {
-        toast.error("Only image acceptable");
-        return;
-      }
-      if (file.size > 1 * 1024 * 1024) {
-        toast.error("Maximum File size 1mb");
-        return;
-      }
-      URL.revokeObjectURL(section.url);
-      const previewUrl = URL.createObjectURL(file);
-      onUpdate(section.id, { file: file, url: previewUrl });
-    }
-    imageRef.current?.addEventListener("change", handleImageChange);
+  const { imageRef, handleImageClick } = useImageChanger(section, onUpdate);
 
-    return () => {
-      imageRef.current?.removeEventListener("change", handleImageChange);
-    };
-  }, []);
   return (
     <>
       <div className="flex flex-col items-center">

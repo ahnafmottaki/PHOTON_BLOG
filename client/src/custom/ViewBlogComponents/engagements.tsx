@@ -4,8 +4,8 @@ import { ThumbsUpIcon, ThumbsDownIcon } from "lucide-react";
 interface EngagementProps {
   likes: number;
   dislikes: number;
-  onLike: () => void;
-  onDislike: () => void;
+  onLike: (() => void) | undefined;
+  onDislike: (() => void) | undefined;
 }
 
 const Engagement: React.FC<EngagementProps> = ({

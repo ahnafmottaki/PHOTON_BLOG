@@ -16,7 +16,7 @@ const ImageAndTextRenderer: React.FC<ImageAndTextRendererProp> = ({
   onUpdate,
   onDelete,
 }) => {
-  const { imageRef, handleImageClick } = useImageChanger();
+  const { imageRef, handleImageClick } = useImageChanger(section, onUpdate);
   return (
     <>
       <div className="flex flex-col md:flex-row gap-6 items-start">
@@ -24,7 +24,7 @@ const ImageAndTextRenderer: React.FC<ImageAndTextRendererProp> = ({
         <img
           src={section.url}
           alt={section.title}
-          className="w-full md:w-1/3 rounded-lg shadow-md object-cover"
+          className="w-full min-h-[250px] md:w-1/3 rounded-lg shadow-md object-cover"
         />
         <div className="flex-1">
           <input

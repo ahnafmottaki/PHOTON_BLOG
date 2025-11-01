@@ -30,27 +30,31 @@ const renderSection = (
       return null;
   }
 };
-const ShowBlog: React.FC<{ blog: BlogType }> = ({ blog }) => {
+const ShowBlog: React.FC<{ blog: BlogType; isDynamic: boolean }> = ({
+  blog,
+  isDynamic,
+}) => {
   return (
     <main className="row">
-      <article className="bg-card  p-6 sm:p-10 rounded-xl shadow-xl">
+      <section className="bg-card  p-6 sm:p-10 rounded-xl shadow-xl">
         {blog.sections.map((section) => renderSection(section))}
         <div className="my-10 border-t border-gray-200" />
         <AuthorInfo author={blog.authorInfo} />
         <Engagement
           likes={blog.likes}
           dislikes={blog.dislikes}
-          onLike={() => {}}
-          onDislike={() => {}}
+          onLike={isDynamic ? () => console.log("Adding like") : undefined}
+          onDislike={isDynamic ? () => console.log("Disliking") : undefined}
         />
 
         <Comments
+          isDynamic={isDynamic}
           comments={blog.comments}
           onAddComment={() => {}}
           onLikeComment={() => {}}
           onDislikeComment={() => {}}
         />
-      </article>
+      </section>
     </main>
   );
 };

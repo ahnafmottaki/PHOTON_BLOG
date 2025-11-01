@@ -4,10 +4,15 @@ interface PreviewButtonProp {
 }
 export default function PreviewButton({ onPreview }: PreviewButtonProp) {
   return (
-    <div className="mt-8 flex justify-end">
-      <Button className=" font-bold rounded-lg shadow-md" onClick={onPreview}>
+    <div className="mt-8 flex justify-end gap-3">
+      <Button
+        className=" font-bold rounded-lg shadow-md"
+        variant={"outline"}
+        onClick={onPreview}
+      >
         Preview Blog
       </Button>
+      <Button className=" font-bold rounded-lg shadow-md">Post</Button>
     </div>
   );
 }
