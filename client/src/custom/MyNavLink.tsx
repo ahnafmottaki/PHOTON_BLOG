@@ -1,3 +1,4 @@
+import { useAuth } from "@/contexts/Auth/auth-context";
 import { NavLink } from "react-router";
 
 const MyNavLink = ({

@@ -19,9 +19,11 @@ import GoogleLogin from "@/custom/GoogleLogin";
 import { Link, useNavigate } from "react-router";
 import { ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
-import type { AxiosError } from "axios";
+import type { AxiosError, AxiosResponse } from "axios";
 import axios from "axios";
 import isValid from "@/utils/isValid";
+import getErrorMessage from "@/utils/handle-api-error";
+import { useAuth } from "@/contexts/Auth/auth-context";
 
 type AuthFromType = {
   className?: string;
@@ -38,7 +40,9 @@ export function AuthForm({
   ...props
 }: AuthFromType) {
   const navigate = useNavigate();
+  const { setUser } = useAuth();
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
+
   const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formDetails = Object.fromEntries(
@@ -59,14 +63,15 @@ export function AuthForm({
       }),
       {
         loading: loginForm ? "Logging in...." : "Registering....",
-        success: () => {
+        success: (response: AxiosResponse) => {
+          setUser(response.data.data);
           setIsSubmitting(false);
           navigate("/");
           return `${loginForm ? "Login" : "Registration"} successful`;
         },
-        error: (error: AxiosError<{ message: string }>) => {
+        error: (error: AxiosError) => {
           setIsSubmitting(false);
-          return error.response?.data.message || "Failed for unknown reason";
+          return getErrorMessage(error);
         },
       }
     );

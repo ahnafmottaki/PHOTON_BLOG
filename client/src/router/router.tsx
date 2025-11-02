@@ -1,3 +1,4 @@
+import PrivatePage from "@/custom/PrivatePage";
 import RootLayout from "@/Layout/RootLayout";
 import AddBlog from "@/pages/AddBlog/AddBlog";
 import BlogsPage from "@/pages/Blogs/BlogsPage";
@@ -19,10 +20,31 @@ const router = createBrowserRouter([
       },
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
-      { path: "addBlog", element: <AddBlog /> },
-      { path: "viewBlog", element: <ViewBlogPage /> },
+      {
+        path: "addBlog",
+        element: (
+          <PrivatePage>
+            <AddBlog />
+          </PrivatePage>
+        ),
+      },
+      {
+        path: "viewBlog",
+        element: (
+          <PrivatePage>
+            <ViewBlogPage />
+          </PrivatePage>
+        ),
+      },
       { path: "blogs", element: <BlogsPage /> },
-      { path: "myBlogs", element: <MyBlogs /> },
+      {
+        path: "myBlogs",
+        element: (
+          <PrivatePage>
+            <MyBlogs />
+          </PrivatePage>
+        ),
+      },
     ],
   },
 ]);

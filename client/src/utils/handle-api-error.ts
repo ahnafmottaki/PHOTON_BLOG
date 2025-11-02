@@ -1,28 +1,26 @@
 import type { AxiosError } from "axios";
-import toast from "react-hot-toast";
 
-const handleApiError = (error: AxiosError) => {
+const getErrorMessage = (error: AxiosError) => {
   if (error.response) {
     const { status, data } = error.response as {
       status: number;
       data: { success: false; message: string };
     };
     if (status >= 400 && status < 500) {
-      toast.error(`Client error (${status}): ${data.message}`);
+      return `Client error (${status}): ${data.message}`;
     } else if (status >= 500) {
-      toast.error(`Server Error (${status}): Please try again later`);
+      return `Server Error (${status}): Please try again later`;
     }
   } else if (error.request) {
     if (error.code === "ECONNABORTED") {
-      toast.error("Request timeout - please try again");
+      return "Request timeout - please try again";
     } else if (error.code === "NETWORK_ERROR") {
-      toast.error("Network error - check your internet connection");
+      return "Network error - check your internet connection";
     } else {
-      toast.error(`Server unreachable - please try again later`);
+      return `Server unreachable - please try again later`;
     }
-  } else {
-    toast.error(`Request error: ${error.message}`);
   }
+  return `Request error: ${error.message}`;
 };
 
-export default handleApiError;
+export default getErrorMessage;
