@@ -44,9 +44,9 @@ const emailAndPassValidators = (fn: CustomValidator): ValidationChain[] => {
       .trim()
       .notEmpty()
       .withMessage(getErrorMessage("required", "email"))
-      .isLength({ min: 9, max: 30 })
+      .isLength({ min: 14, max: 35 })
       .isEmail()
-      .withMessage(getErrorMessage("length", "email", 30, 9))
+      .withMessage(getErrorMessage("length", "email", 35, 14))
       .custom(fn),
     body("password").trim().notEmpty().isLength({ min: 6, max: 15 }),
   ];

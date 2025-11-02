@@ -14,34 +14,62 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import React, { useId } from "react";
+import React from "react";
 import GoogleLogin from "@/custom/GoogleLogin";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { ArrowRight } from "lucide-react";
+import toast from "react-hot-toast";
+import type { AxiosError } from "axios";
+import axios from "axios";
+import isValid from "@/utils/isValid";
 
 type AuthFromType = {
   className?: string;
   title: string;
   description: string;
   loginForm?: boolean;
-  submitFn: (formDetails: Record<string, string>) => void;
 } & React.ComponentPropsWithoutRef<"div">;
 
 export function AuthForm({
   className,
   title,
   description,
-  submitFn,
   loginForm,
   ...props
 }: AuthFromType) {
-  const emailId = useId();
+  const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
   const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formDetails = Object.fromEntries(
       new FormData(event.currentTarget).entries()
     );
-    submitFn();
+    for (const [key, value] of Object.entries(formDetails)) {
+      if (!isValid[key](value)) {
+        return;
+      }
+    }
+    setIsSubmitting(true);
+    toast.promise(
+      axios({
+        method: "post",
+        url: `/auth/${loginForm ? "login" : "register"}`,
+        data: formDetails,
+        timeout: 3000,
+      }),
+      {
+        loading: loginForm ? "Logging in...." : "Registering....",
+        success: () => {
+          setIsSubmitting(false);
+          navigate("/");
+          return `${loginForm ? "Login" : "Registration"} successful`;
+        },
+        error: (error: AxiosError<{ message: string }>) => {
+          setIsSubmitting(false);
+          return error.response?.data.message || "Failed for unknown reason";
+        },
+      }
+    );
   };
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
@@ -53,7 +81,7 @@ export function AuthForm({
               <CardDescription>{description}</CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={submitFn}>
+              <form onSubmit={handleRegister}>
                 <FieldGroup>
                   {!loginForm && (
                     <>
@@ -66,21 +94,21 @@ export function AuthForm({
                           placeholder="maximilian"
                           defaultValue={"maximilian"}
                           minLength={5}
-                          maxLength={30}
+                          maxLength={20}
                           required
                         />
                       </Field>
                     </>
                   )}
                   <Field>
-                    <FieldLabel htmlFor={emailId}>Email</FieldLabel>
+                    <FieldLabel htmlFor={"email"}>Email</FieldLabel>
                     <Input
-                      id={emailId}
+                      id={"email"}
                       type="email"
                       placeholder="m@example.com"
                       defaultValue={"maximilian2022@gmail.com"}
-                      minLength={10}
-                      maxLength={30}
+                      minLength={14}
+                      maxLength={35}
                       required
                       name="email"
                     />
@@ -102,16 +130,19 @@ export function AuthForm({
                       type="password"
                       required
                       minLength={6}
-                      maxLength={20}
+                      maxLength={15}
                       defaultValue={"max201408mil"}
                       name="password"
                     />
                   </Field>
                   <Field>
-                    <Button type="submit">
+                    <Button type="submit" disabled={isSubmitting}>
                       {loginForm ? "Login" : "Sign up"}
                     </Button>
-                    <GoogleLogin isLoginForm={loginForm} />
+                    <GoogleLogin
+                      isLoginForm={loginForm}
+                      disabled={isSubmitting}
+                    />
                     <FieldDescription className="text-center">
                       {loginForm ? (
                         <>

@@ -21,9 +21,11 @@ export const registerController = asyncHandler(
     // have to set cookie
     res.cookie("accessToken", accessToken, cookieSettingsForJWT);
     //sending response to client
-    new ApiResponse(StatusCodes.CREATED, ReasonPhrases.CREATED).sendResponse(
-      res
-    );
+    new ApiResponse(
+      StatusCodes.CREATED,
+      ReasonPhrases.CREATED,
+      UserModel.toResponse(user)
+    ).sendResponse(res);
   }
 );
 

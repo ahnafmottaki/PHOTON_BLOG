@@ -1,8 +1,16 @@
 import { Button } from "@/components/ui/button";
-
-const GoogleLogin = ({ isLoginForm }: { isLoginForm?: boolean }) => {
+import type React from "react";
+type GoogleLoginProp = React.ComponentPropsWithoutRef<"button"> & {
+  isLoginForm?: boolean;
+};
+const GoogleLogin: React.FC<GoogleLoginProp> = ({ isLoginForm, ...props }) => {
   return (
-    <Button variant="outline" type="button">
+    <Button
+      className="disabled:opacity-20"
+      variant="outline"
+      type="button"
+      {...props}
+    >
       {isLoginForm ? "Login with Google" : "Sign up with Google"}
     </Button>
   );
