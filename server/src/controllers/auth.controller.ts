@@ -45,3 +45,12 @@ export const loginController = asyncHandler(
     ).sendResponse(res);
   }
 );
+
+export const logoutController = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  res.clearCookie("accessToken", cookieSettingsForJWT);
+  new ApiResponse(StatusCodes.OK, ReasonPhrases.OK).sendResponse(res);
+};
