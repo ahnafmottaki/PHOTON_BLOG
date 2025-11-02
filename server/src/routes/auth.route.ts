@@ -1,10 +1,16 @@
 import express, { Request, Response } from "express";
-import { register } from "../controllers/auth.controller";
-import { validateRegisterInputs } from "../middleware/validation-middleware";
+import {
+  registerController,
+  loginController,
+} from "../controllers/auth.controller";
+import {
+  validateLoginInputs,
+  validateRegisterInputs,
+} from "../middleware/validation-middleware";
 const router = express.Router();
 
-router.post("/login", (req: Request, res: Response) => {});
+router.post("/login", ...validateLoginInputs, loginController);
 
-router.post("/register", ...validateRegisterInputs, register);
+router.post("/register", ...validateRegisterInputs, registerController);
 
 export default router;

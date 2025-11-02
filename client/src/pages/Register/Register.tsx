@@ -10,7 +10,6 @@ const Register = () => {
       "http://localhost:3000/api/auth/register",
       formDetails
     );
-    console.log(response.data);
   };
   return (
     <AuthForm

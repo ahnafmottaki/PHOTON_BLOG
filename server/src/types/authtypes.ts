@@ -4,4 +4,9 @@ interface RegisterRequest {
   password: string;
 }
 
-export { RegisterRequest };
+interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export { RegisterRequest, LoginRequest };

@@ -5,16 +5,27 @@ import bcrypt from "bcrypt";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import AppError from "../utils/AppError";
 
-class UserModel {
-  private _id?: ObjectId;
+interface User {
+  _id: ObjectId | null;
+  username: string;
+  email: string;
+  password: string;
+  bio: string;
+  blogs: ObjectId[];
+  totalPosts: number;
+  role: "admin" | "user";
+}
+
+class UserModel implements User {
+  public _id: ObjectId | null = null;
   constructor(
-    private username: string,
-    private email: string,
-    private password: string,
-    private bio: string = "",
-    private blogs: ObjectId[] = [],
-    private totalPosts: number = 0,
-    private role: "admin" | "user" = "user"
+    public username: string,
+    public email: string,
+    public password: string,
+    public bio: string = "",
+    public blogs: ObjectId[] = [],
+    public totalPosts: number = 0,
+    public role: "admin" | "user" = "user"
   ) {}
   toJSON() {
     return {
@@ -23,44 +34,41 @@ class UserModel {
       password: this.password,
       bio: this.bio,
       blogs: this.blogs.map((blog) => blog.toString()),
-      posts: this.totalPosts,
+      totalPosts: this.totalPosts,
       role: this.role,
     };
   }
 
-  toJwtPayload() {
-    return {
-      _id: this._id,
-      username: this.username,
-      email: this.email,
-      role: this.role,
-    };
-  }
-
-  toResponse() {
-    if (!this._id) {
-      throw new Error("User ID is not defined");
+  static toJwtPayload(user: User) {
+    if (!user._id) {
+      throw new Error("_id doesn't exits");
     }
     return {
-      _id: this._id,
-      username: this.username,
-      email: this.email,
-      bio: this.bio,
-      posts: this.totalPosts,
-      role: this.role,
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
     };
   }
 
-  static async isExist(query: Record<string, string>) {
+  static toResponse(user: User) {
+    return {
+      username: user.username,
+      email: user.email,
+      bio: user.bio,
+      totalPosts: user.totalPosts,
+      role: user.role,
+    };
+  }
+
+  static async isExist(query: Record<string, string>): Promise<boolean> {
     const orCondition = Object.keys(query).map((key) => ({
       [key]: query[key],
     }));
     const foundUser = await userCollection.findOne({
       $or: orCondition,
     });
-    if (foundUser) {
-      throw new AppError(StatusCodes.CONFLICT, "user already exists");
-    }
+    return Boolean(foundUser);
   }
 
   async hashPassword(password: string) {
@@ -71,7 +79,13 @@ class UserModel {
   }
 
   static async create(user: UserModel) {
-    await UserModel.isExist({ username: user.username, email: user.email });
+    const doesUserExists = await UserModel.isExist({
+      username: user.username,
+      email: user.email,
+    });
+    if (doesUserExists) {
+      throw new AppError(StatusCodes.CONFLICT, ReasonPhrases.CONFLICT);
+    }
     user.password = await user.hashPassword(user.password);
     const result = await userCollection.insertOne(user.toJSON(), {
       writeConcern: { w: "majority", j: true, wtimeout: 3000 },
@@ -79,5 +93,5 @@ class UserModel {
     user._id = result.insertedId;
   }
 }
-
+export { User };
 export default UserModel;
