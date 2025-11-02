@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Field, FieldLabel } from "@/components/ui/field";
+import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Link, NavLink } from "react-router";
+import { Link } from "react-router";
+import MyNavLink from "./MyNavLink";
 
 const Footer = () => {
   return (
@@ -104,62 +105,18 @@ const Footer = () => {
 
             <ul className="mt-6 space-y-4">
               <li>
-                <NavLink
-                  to={"/about"}
-                  className={({ isActive }) =>
-                    `text-base font-medium  transition-all duration-200 rounded focus:outline-none ${
-                      isActive
-                        ? "text-destructive underline"
-                        : "text-foreground"
-                    }  hover:text-destructive hover:underline`
-                  }
-                >
-                  About
-                </NavLink>
+                <MyNavLink path={"/about"}>About</MyNavLink>
               </li>
               <li>
-                <NavLink
-                  to={"/features"}
-                  className={({ isActive }) =>
-                    `text-base font-medium  transition-all duration-200 rounded focus:outline-none ${
-                      isActive
-                        ? "text-destructive underline"
-                        : "text-foreground"
-                    }  hover:text-destructive hover:underline`
-                  }
-                >
-                  Features
-                </NavLink>
+                <MyNavLink path={"/features"}>Features</MyNavLink>
               </li>
 
               <li>
-                <NavLink
-                  to={"/Blogs"}
-                  className={({ isActive }) =>
-                    `text-base font-medium  transition-all duration-200 rounded focus:outline-none ${
-                      isActive
-                        ? "text-destructive underline"
-                        : "text-foreground"
-                    }  hover:text-destructive hover:underline`
-                  }
-                >
-                  Blogs
-                </NavLink>
+                <MyNavLink path={"/Blogs"}>Blogs</MyNavLink>
               </li>
 
               <li>
-                <NavLink
-                  to={"/profile"}
-                  className={({ isActive }) =>
-                    `text-base font-medium  transition-all duration-200 rounded focus:outline-none ${
-                      isActive
-                        ? "text-destructive underline"
-                        : "text-foreground"
-                    }  hover:text-destructive hover:underline`
-                  }
-                >
-                  Profile
-                </NavLink>
+                <MyNavLink path={"/profile"}>Profile</MyNavLink>
               </li>
             </ul>
           </div>
@@ -171,63 +128,23 @@ const Footer = () => {
 
             <ul className="mt-6 space-y-4">
               <li>
-                <NavLink
-                  to={"/customerSupport"}
-                  className={({ isActive }) =>
-                    `text-base font-medium  transition-all duration-200 rounded focus:outline-none ${
-                      isActive
-                        ? "text-destructive underline"
-                        : "text-foreground"
-                    }  hover:text-destructive hover:underline`
-                  }
-                >
+                <MyNavLink path={"/customerSupport"}>
                   Customer Support
-                </NavLink>
+                </MyNavLink>
               </li>
 
               <li>
-                <NavLink
-                  to={"/deliveryDetails"}
-                  className={({ isActive }) =>
-                    `text-base font-medium  transition-all duration-200 rounded focus:outline-none ${
-                      isActive
-                        ? "text-destructive underline"
-                        : "text-foreground"
-                    }  hover:text-destructive hover:underline`
-                  }
-                >
+                <MyNavLink path={"/deliveryDetails"}>
                   Delivery Details
-                </NavLink>
+                </MyNavLink>
               </li>
 
               <li>
-                <NavLink
-                  to={"/termsAndConditions"}
-                  className={({ isActive }) =>
-                    `text-base font-medium  transition-all duration-200 rounded focus:outline-none ${
-                      isActive
-                        ? "text-destructive underline"
-                        : "text-foreground"
-                    }  hover:text-destructive hover:underline`
-                  }
-                >
-                  Profile
-                </NavLink>
+                <MyNavLink path={"/termsAndConditions"}>Profile</MyNavLink>
               </li>
 
               <li>
-                <NavLink
-                  to={"/privacyPolicy"}
-                  className={({ isActive }) =>
-                    `text-base font-medium  transition-all duration-200 rounded focus:outline-none ${
-                      isActive
-                        ? "text-destructive underline"
-                        : "text-foreground"
-                    }  hover:text-destructive hover:underline`
-                  }
-                >
-                  Privacy Policy
-                </NavLink>
+                <MyNavLink path={"/privacyPolicy"}>Privacy Policy</MyNavLink>
               </li>
             </ul>
           </div>
@@ -252,7 +169,7 @@ const Footer = () => {
         <hr className="mt-16 mb-10 border-border" />
 
         <p className="text-sm text-center text-muted-foreground">
-          © Copyright 2021, All Rights Reserved by Postcraft
+          © Copyright 2021, All Rights Reserved by Photon
         </p>
       </div>
     </section>

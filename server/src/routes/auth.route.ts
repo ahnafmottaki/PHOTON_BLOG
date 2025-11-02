@@ -1,12 +1,10 @@
-import express from "express";
+import express, { Request, Response } from "express";
+import { register } from "../controllers/auth.controller";
+import { validateRegisterInputs } from "../middleware/validation-middleware";
 const router = express.Router();
 
-router.post("/login", (req, res) => {
-  res.json({ message: "Login route" });
-});
+router.post("/login", (req: Request, res: Response) => {});
 
-router.post("/register", (req, res) => {
-  res.json({ message: "Register route" });
-});
+router.post("/register", ...validateRegisterInputs, register);
 
 export default router;

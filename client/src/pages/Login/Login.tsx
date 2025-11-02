@@ -4,6 +4,9 @@ import type React from "react";
 const Login = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const form = event.currentTarget;
+    const formDetails = Object.fromEntries(new FormData(form).entries());
+    console.log(formDetails);
     console.log("Login action triggered");
   };
   return (

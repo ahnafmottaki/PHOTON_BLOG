@@ -4,6 +4,9 @@ import "@/global.css";
 import { RouterProvider } from "react-router";
 import router from "@/router/router";
 import { ThemeProvider } from "@/components/theme-provider";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

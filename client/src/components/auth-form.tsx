@@ -14,7 +14,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useId } from "react";
+import React, { useId } from "react";
 import GoogleLogin from "@/custom/GoogleLogin";
 import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
@@ -24,7 +24,7 @@ type AuthFromType = {
   title: string;
   description: string;
   loginForm?: boolean;
-  submitFn: (e: React.FormEvent<HTMLFormElement>) => void;
+  submitFn: (formDetails: Record<string, string>) => void;
 } & React.ComponentPropsWithoutRef<"div">;
 
 export function AuthForm({
@@ -36,6 +36,13 @@ export function AuthForm({
   ...props
 }: AuthFromType) {
   const emailId = useId();
+  const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formDetails = Object.fromEntries(
+      new FormData(event.currentTarget).entries()
+    );
+    submitFn();
+  };
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
@@ -55,6 +62,7 @@ export function AuthForm({
                         <Input
                           id={"username"}
                           type="text"
+                          name="username"
                           placeholder="maximilian"
                           defaultValue={"maximilian"}
                           minLength={5}
@@ -74,6 +82,7 @@ export function AuthForm({
                       minLength={10}
                       maxLength={30}
                       required
+                      name="email"
                     />
                   </Field>
                   <Field>
@@ -95,6 +104,7 @@ export function AuthForm({
                       minLength={6}
                       maxLength={20}
                       defaultValue={"max201408mil"}
+                      name="password"
                     />
                   </Field>
                   <Field>

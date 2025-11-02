@@ -3,30 +3,7 @@ import { Button } from "@/components/ui/button";
 import { TextAlignJustify, X } from "lucide-react";
 import React from "react";
 import { ModeToggle } from "@/components/mode-toggle";
-
-const MyNavLink = ({
-  path,
-  children,
-  handleMenuOpen,
-}: {
-  path: string;
-  children: React.ReactNode;
-  handleMenuOpen?: () => void;
-}) => {
-  return (
-    <NavLink
-      onClick={handleMenuOpen}
-      to={path}
-      className={({ isActive }) =>
-        `text-base font-medium  transition-all duration-200 rounded focus:outline-none ${
-          isActive ? "text-destructive underline" : "text-foreground"
-        }  hover:text-destructive hover:underline`
-      }
-    >
-      {children}
-    </NavLink>
-  );
-};
+import MyNavLink from "./MyNavLink";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(false);

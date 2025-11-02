@@ -1,10 +1,16 @@
 import { AuthForm } from "@/components/auth-form";
 import type React from "react";
+import axios from "axios";
 
 const Register = () => {
-  const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Register action triggered");
+  const handleRegister = async (
+    formDetails: Record<string, FormDataEntryValue>
+  ) => {
+    const response = await axios.post(
+      "http://localhost:3000/api/auth/register",
+      formDetails
+    );
+    console.log(response.data);
   };
   return (
     <AuthForm
