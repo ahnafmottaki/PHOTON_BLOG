@@ -11,7 +11,7 @@ import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import AppError from "../utils/AppError";
 import UserModel from "../models/user.model";
 import { userCollection } from "../database/db";
-import { SectionsSchema } from "../schema/section.schema";
+import { SectionArrayType, SectionsSchema } from "../schema/section.schema";
 import asyncHandler from "../utils/asyncHandler";
 
 const withValidationErrors = (
@@ -89,9 +89,10 @@ const validateInputs = (
     asyncHandler((req: Request, res: Response, next: NextFunction) => {
       const result = Schema.safeParse(req.body);
       if (!result.success) {
-        return next(
-          new AppError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST)
-        );
+        const errorMessage =
+          result.error.issues.map((issue) => issue.message)[0] ||
+          "Invalid Request";
+        return next(new AppError(StatusCodes.BAD_REQUEST, errorMessage));
       }
       console.log(result.data);
       next();
@@ -100,7 +101,25 @@ const validateInputs = (
 };
 
 const validateSectionInputs = validateInputs(
-  z.object({ sections: SectionsSchema })
+  z.object({ sections: SectionsSchema }),
+  asyncHandler((req, res, next) => {
+    const sections: SectionArrayType = req.body.sections;
+    let totalImageType = 0;
+    for (const section of sections) {
+      if (section.type === "image" || section.type === "img-and-paragraph") {
+        ++totalImageType;
+      }
+    }
+    if (totalImageType > 3) {
+      return next(
+        new AppError(
+          StatusCodes.BAD_GATEWAY,
+          "expected less than 4 image sections"
+        )
+      );
+    }
+    next();
+  })
 );
 
 export { validateRegisterInputs, validateLoginInputs, validateSectionInputs };

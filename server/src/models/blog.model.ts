@@ -1,85 +1,48 @@
 import { ObjectId } from "mongodb";
-enum SectionType {
-  HEADING = "heading",
-  PARAGRAPH = "paragraph",
-  IMAGE = "image",
-  IMAGE_AND_TEXT = "image_and_text",
-}
-
-export type SectionLiterals =
-  | SectionType.HEADING
-  | SectionType.PARAGRAPH
-  | SectionType.IMAGE
-  | SectionType.IMAGE_AND_TEXT;
-
-export interface HeadingType {
-  id: string;
-  type: SectionType.HEADING;
-  text: string;
-}
-
-export interface ParagraphType {
-  id: string;
-  type: SectionType.PARAGRAPH;
-  text: string;
-}
-
-export interface ImageType {
-  id: string;
-  url: string;
-  caption: string;
-  type: SectionType.IMAGE;
-}
-
-export interface ImageAndTextType {
-  id: string;
-  url: string;
-  title: string;
-  paragraph: string;
-  type: SectionType.IMAGE_AND_TEXT;
-}
-
-export interface Comment {
-  _id: ObjectId | null;
-  text: string;
+import { SectionArrayType } from "../schema/section.schema";
+interface Blog {
+  sections: SectionArrayType;
   author: ObjectId;
-  createdAt: Date;
-  updatedAt: Date;
+  comments: ObjectId[];
   likes: number;
   disLikes: number;
+  totalComments: number;
+  updatedAt: Date;
+  createdAt: Date;
 }
-
-export type BlogSection =
-  | HeadingType
-  | ParagraphType
-  | ImageType
-  | ImageAndTextType;
-
-class BlogModel {
+class BlogModel implements Blog {
+  public id: null | ObjectId = null;
   constructor(
-    private _id: ObjectId | null,
-    private sections: BlogSection[],
-    private author: ObjectId,
-    private comments: ObjectId[] = [],
-    private likes: number = 0,
-    private disLikes: number = 0,
-    private totalComment: number = 0,
-    private updatedAt: Date = new Date(),
-    private createdAt: Date = new Date()
+    public sections: SectionArrayType,
+    public author: ObjectId,
+    public comments: ObjectId[] = [],
+    public likes: number = 0,
+    public disLikes: number = 0,
+    public totalComments: number = 0,
+    public updatedAt: Date = new Date(),
+    public createdAt: Date = new Date()
   ) {}
 
   toJSON() {
     return {
-      _id: this._id?.toString(),
+      ...(this.id ? { id: this.id } : {}),
       sections: this.sections,
-      author: this.author.toString(),
+      author: this.author,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       likes: this.likes,
       disLikes: this.disLikes,
-      totalComment: this.totalComment,
-      comments: this.comments.map((comment) => comment.toString()),
+      totalComments: this.totalComments,
+      comments: this.comments,
     };
+  }
+
+  addIdsToSections() {
+    this.sections = this.sections.map((section) => ({
+      ...section,
+      _id: new ObjectId(),
+    }));
+    return this;
   }
 }
 

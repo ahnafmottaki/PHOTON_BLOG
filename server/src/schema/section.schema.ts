@@ -29,4 +29,4 @@ const SectionsSchema = z
 
 type SectionArrayType = z.infer<typeof SectionsSchema>;
 
-export { SectionsSchema };
+export { SectionsSchema, SectionArrayType };

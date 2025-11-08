@@ -1,4 +1,5 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
+import blogValidator from "../schemaValidators/blog.schemaValidators";
 
 const uri = process.env.DB_URL;
 console.log(uri);
@@ -12,10 +13,10 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   },
 });
-
-const userCollection = client.db("photon").collection("users");
-const blogCollection = client.db("photon").collection("blogs");
-const commentCollection = client.db("photon").collection("comments");
+const db = client.db("photon");
+const userCollection = db.collection("users");
+const blogCollection = db.collection("blogs", blogValidator);
+const commentCollection = db.collection("comments");
 
 export default async function connectDB() {
   try {

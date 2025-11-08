@@ -3,38 +3,33 @@ import type { Comment } from "./blog-related-types";
 import { ThumbsUpIcon, ThumbsDownIcon } from "lucide-react";
 
 interface CommentDynamicProps {
-  isDynamic: true;
   comments: Comment[];
-  onAddComment: (commentText: string) => void;
-  onLikeComment: (id: number) => void;
-  onDislikeComment: (id: number) => void;
+  onAddComment?: (commentText: string) => void;
+  onLikeComment?: (id: number) => void;
+  onDislikeComment?: (id: number) => void;
 }
 
-interface CommentStaticProps {
-  isDynamic: false;
-  comments: Comment[];
-}
-
-const Comments: React.FC<CommentDynamicProps | CommentStaticProps> = (
-  props
-) => {
+const Comments: React.FC<CommentDynamicProps> = ({
+  comments,
+  onAddComment,
+  onDislikeComment,
+  onLikeComment,
+}) => {
   const [newComment, setNewComment] = React.useState("");
   const handleAddComment: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    if (props.isDynamic && newComment.trim()) {
-      props.onAddComment(newComment.trim());
-      setNewComment("");
+    if (onAddComment) {
+      onAddComment("hello");
     }
-    console.log("Comment Submit event clicked");
   };
   return (
     <div className="mt-12">
       <h2 className="text-3xl font-bold text-card-foreground mb-6 border-b pb-3">
-        Comments ({props.comments.length})
+        Comments ({comments.length})
       </h2>
 
       <div className="space-y-6">
-        {props.comments.map((comment) => (
+        {comments.map((comment) => (
           <div key={comment.id} className="flex items-start gap-4">
             <img
               src={comment.avatarUrl}
@@ -50,8 +45,8 @@ const Comments: React.FC<CommentDynamicProps | CommentStaticProps> = (
               </div>
               <div className="flex items-center gap-4 mt-2 pl-1">
                 <button
-                  onClick={() =>
-                    props.isDynamic && props.onLikeComment(comment.id)
+                  onClick={
+                    onLikeComment ? () => onLikeComment(comment.id) : undefined
                   }
                   className="flex items-center gap-1 text-xs text-accent-foreground hover:text-blue-600 transition-colors"
                   aria-label={`Like comment by ${comment.author}`}
@@ -60,8 +55,10 @@ const Comments: React.FC<CommentDynamicProps | CommentStaticProps> = (
                   <span>{comment.likes}</span>
                 </button>
                 <button
-                  onClick={() =>
-                    props.isDynamic && props.onDislikeComment(comment.id)
+                  onClick={
+                    onDislikeComment
+                      ? () => onDislikeComment(comment.id)
+                      : undefined
                   }
                   className="flex items-center gap-1 text-xs text-accent-foreground hover:text-red-600 transition-colors"
                   aria-label={`Dislike comment by ${comment.author}`}

@@ -13,6 +13,10 @@ import React from "react";
 import toast from "react-hot-toast";
 import RenderInputs from "@/custom/AddBlogComponents/render-inputs";
 import reqWithLoader from "@/utils/req-with-loader";
+import { useNavigate } from "react-router";
+import AuthorInfo from "@/custom/ViewBlogComponents/author-info";
+import Engagement from "@/custom/ViewBlogComponents/engagements";
+import Comments from "@/custom/ViewBlogComponents/comments";
 
 const INITIAL_HEADING: BlogSection = {
   type: "heading",
@@ -22,9 +26,11 @@ const INITIAL_HEADING: BlogSection = {
 
 const AddBlog = () => {
   const [showPreview, setShowPreview] = React.useState<boolean>(false);
+  const [uploading, setUploading] = React.useState<boolean>(false);
   const [sections, setSections] = React.useState<BlogSection[]>([
     INITIAL_HEADING,
   ]);
+  const navigate = useNavigate();
 
   const onPostHandler = async () => {
     const message = validateSections(sections);
@@ -41,6 +47,7 @@ const AddBlog = () => {
       }
       return rest;
     });
+    setUploading(true);
     reqWithLoader({
       request: {
         method: "post",
@@ -48,8 +55,26 @@ const AddBlog = () => {
         data: { sections: data },
       },
       loadingMsg: "Posting blog...",
-      onSuccess: () => "Added",
-      onError: () => "Failed to add blogs",
+      onSuccess: () => {
+        setSections(
+          sections.map((section) => {
+            if (
+              section.type === "image" ||
+              section.type === "img-and-paragraph"
+            ) {
+              return { ...section, publicId: null };
+            }
+            return section;
+          })
+        );
+        setUploading(false);
+        navigate("/viewBlog");
+        return "Blog added";
+      },
+      onError: () => {
+        setUploading(false);
+        return "Failed to add blogs";
+      },
     });
   };
 
@@ -93,8 +118,6 @@ const AddBlog = () => {
     console.log("section added to state");
   }, []);
 
-  console.log(sections);
-
   return (
     <>
       <section className="row">
@@ -118,11 +141,30 @@ const AddBlog = () => {
           ))}
         </section>
         <Tools onAddSection={handleAddSection} />
-        <PreviewButton onPost={onPostHandler} onPreview={onPreviewHandler} />
+        <PreviewButton
+          onPost={onPostHandler}
+          onPreview={onPreviewHandler}
+          submitting={uploading}
+        />
       </section>
       {showPreview && (
         <DialogView onOverlayClick={onPreviewHandler}>
-          <ShowBlog blog={{ sections, ...defaultBlog }} isDynamic={false} />
+          <ShowBlog sections={sections}>
+            <AuthorInfo author={defaultBlog.authorInfo} />
+            <Engagement
+              likes={20}
+              dislikes={45}
+              onLike={undefined}
+              onDislike={undefined}
+            />
+
+            <Comments
+              comments={defaultBlog.comments}
+              onAddComment={() => {}}
+              onLikeComment={() => {}}
+              onDislikeComment={() => {}}
+            />
+          </ShowBlog>
         </DialogView>
       )}
     </>
