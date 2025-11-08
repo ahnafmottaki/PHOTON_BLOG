@@ -2,7 +2,7 @@ export const SectionType = {
   HEADING: "heading",
   PARAGRAPH: "paragraph",
   IMAGE: "image",
-  IMAGE_AND_TEXT: "image-and-text",
+  IMAGE_AND_TEXT: "img-and-paragraph",
 } as const;
 
 export type SectionLiterals = (typeof SectionType)[keyof typeof SectionType];
@@ -19,23 +19,21 @@ export interface ParagraphType {
   text: string;
 }
 
-interface FileType {
-  file: File | null;
-}
-
-export interface ImageType extends FileType {
+export interface ImageType {
   id: string;
   type: typeof SectionType.IMAGE;
   url: string;
   caption: string;
+  publicId: string | null;
 }
 
-export interface ImageAndTextType extends FileType {
+export interface ImageAndTextType {
   id: string;
   type: typeof SectionType.IMAGE_AND_TEXT;
   url: string;
   title: string;
   paragraph: string;
+  publicId: string | null;
 }
 
 export type BlogSection =

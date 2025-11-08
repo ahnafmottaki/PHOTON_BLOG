@@ -12,6 +12,7 @@ import { defaultBlog } from "@/utils/get-default-data-for-blog";
 import React from "react";
 import toast from "react-hot-toast";
 import RenderInputs from "@/custom/AddBlogComponents/render-inputs";
+import reqWithLoader from "@/utils/req-with-loader";
 
 const INITIAL_HEADING: BlogSection = {
   type: "heading",
@@ -24,10 +25,38 @@ const AddBlog = () => {
   const [sections, setSections] = React.useState<BlogSection[]>([
     INITIAL_HEADING,
   ]);
-  const handleShowPreview = React.useCallback(() => {
+
+  const onPostHandler = async () => {
+    const message = validateSections(sections);
+    if (message) {
+      toast.error(message);
+      return;
+    }
+
+    const data = sections.map((section) => {
+      const { id, ...rest } = section;
+      if (rest.type === "image" || rest.type === "img-and-paragraph") {
+        const { publicId, ...withoutPublicId } = rest;
+        return withoutPublicId;
+      }
+      return rest;
+    });
+    reqWithLoader({
+      request: {
+        method: "post",
+        url: "/blogs",
+        data: { sections: data },
+      },
+      loadingMsg: "Posting blog...",
+      onSuccess: () => "Added",
+      onError: () => "Failed to add blogs",
+    });
+  };
+
+  const onPreviewHandler = React.useCallback(() => {
     let message = validateSections(sections);
     if (message) {
-      toast.error(message || "Something unexpected happened", {
+      toast.error(message, {
         className: "bg-primary text-primary-foreground",
       });
       return;
@@ -89,10 +118,10 @@ const AddBlog = () => {
           ))}
         </section>
         <Tools onAddSection={handleAddSection} />
-        <PreviewButton onPreview={handleShowPreview} />
+        <PreviewButton onPost={onPostHandler} onPreview={onPreviewHandler} />
       </section>
       {showPreview && (
-        <DialogView onOverlayClick={handleShowPreview}>
+        <DialogView onOverlayClick={onPreviewHandler}>
           <ShowBlog blog={{ sections, ...defaultBlog }} isDynamic={false} />
         </DialogView>
       )}

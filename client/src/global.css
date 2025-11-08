@@ -194,6 +194,6 @@ body {
   }
 
   .row {
-    @apply px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 my-14;
+    @apply px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 my-14 min-h-screen;
   }
 }

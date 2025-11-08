@@ -1,4 +1,5 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
+import * as z from "zod";
 import {
   body,
   CustomValidationChain,
@@ -6,10 +7,12 @@ import {
   ValidationChain,
   validationResult,
 } from "express-validator";
-import { StatusCodes } from "http-status-codes";
+import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import AppError from "../utils/AppError";
 import UserModel from "../models/user.model";
 import { userCollection } from "../database/db";
+import { SectionsSchema } from "../schema/section.schema";
+import asyncHandler from "../utils/asyncHandler";
 
 const withValidationErrors = (
   validators: ValidationChain[]
@@ -77,4 +80,27 @@ const validateLoginInputs = withValidationErrors([
   }),
 ]);
 
-export { validateRegisterInputs, validateLoginInputs };
+const validateInputs = (
+  Schema: z._ZodType,
+  ...handlers: RequestHandler[]
+): RequestHandler[] => {
+  return [
+    ...handlers,
+    asyncHandler((req: Request, res: Response, next: NextFunction) => {
+      const result = Schema.safeParse(req.body);
+      if (!result.success) {
+        return next(
+          new AppError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST)
+        );
+      }
+      console.log(result.data);
+      next();
+    }),
+  ];
+};
+
+const validateSectionInputs = validateInputs(
+  z.object({ sections: SectionsSchema })
+);
+
+export { validateRegisterInputs, validateLoginInputs, validateSectionInputs };

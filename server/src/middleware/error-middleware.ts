@@ -12,6 +12,7 @@ const errorMiddleware = (
   let statusCode = 500;
   const response = { success: false, message: "Server Error" };
   if (isAppError(error)) {
+    console.log(error);
     statusCode = error.statusCode;
     response.message = error.message;
   }

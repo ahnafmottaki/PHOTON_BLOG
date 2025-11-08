@@ -11,6 +11,7 @@ type User = null | {
 interface AuthProviderState {
   user: User;
   setUser: (user: User) => void;
+  isLoading: boolean;
 }
 
 interface AuthProviderProps {

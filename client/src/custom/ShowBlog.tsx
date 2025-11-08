@@ -7,6 +7,7 @@ import ImageTextSection from "./ViewBlogComponents/image-text-section";
 import AuthorInfo from "./ViewBlogComponents/author-info";
 import Engagement from "./ViewBlogComponents/engagements";
 import Comments from "./ViewBlogComponents/comments";
+import { SectionType } from "./AddBlogComponents/add-blog.type";
 
 const RenderSection = ({
   section,
@@ -14,13 +15,13 @@ const RenderSection = ({
   section: BlogType["sections"][number];
 }) => {
   switch (section.type) {
-    case "heading":
+    case SectionType.HEADING:
       return <BlogHeader title={section.text} />;
-    case "paragraph":
+    case SectionType.PARAGRAPH:
       return <Paragraph text={section.text} />;
-    case "image":
+    case SectionType.IMAGE:
       return <ImageSection imageUrl={section.url} caption={section.caption} />;
-    case "image-and-text":
+    case SectionType.IMAGE_AND_TEXT:
       return (
         <ImageTextSection
           imageUrl={section.url}

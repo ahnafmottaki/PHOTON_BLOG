@@ -1,8 +1,11 @@
-import type React from "react";
+import React from "react";
 import type { ImageType } from "./add-blog.type";
 import DeleteWrapper from "./delete-wrapper";
 import { Button } from "@/components/ui/button";
 import { Edit } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner";
+import ImageChanger from "./image-changer";
+import { deleteImage } from "@/utils/cloudinary.utils";
 import useImageChanger from "../hooks/useImageChanger";
 
 interface ImageRenderProp {
@@ -16,18 +19,32 @@ const ImageRender: React.FC<ImageRenderProp> = ({
   onDelete,
   onUpdate,
 }) => {
-  const { imageRef, handleImageClick } = useImageChanger(section, onUpdate);
+  const { uploading, setUploading, imageRef, handleImageClick } =
+    useImageChanger(section.publicId);
 
   return (
     <>
       <div className="flex flex-col items-center">
-        <input type="file" className="hidden" ref={imageRef} />
-        <img
-          src={section.url}
-          alt={section.caption}
-          height={777}
-          className="rounded-lg shadow-md max-w-full h-auto mb-2"
+        <ImageChanger
+          ref={imageRef}
+          setUploading={setUploading}
+          id={section.id}
+          onUpdate={onUpdate}
+          publicId={section.publicId}
         />
+        <div className="rounded-lg relative shadow-md overflow-hidden mb-2">
+          {uploading && (
+            <div className="absolute inset-0 grid place-items-center bg-black/40">
+              <Spinner className="size-16" />
+            </div>
+          )}
+          <img
+            src={section.url}
+            alt={section.caption}
+            height={777}
+            className=" max-w-full h-auto "
+          />
+        </div>
         <input
           type="text"
           value={section.caption}

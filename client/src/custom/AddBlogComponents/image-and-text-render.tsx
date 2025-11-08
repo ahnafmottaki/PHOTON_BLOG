@@ -2,7 +2,10 @@ import { Button } from "@/components/ui/button";
 import type { ImageAndTextType } from "./add-blog.type";
 import { Edit } from "lucide-react";
 import DeleteWrapper from "./delete-wrapper";
-import type React from "react";
+import React from "react";
+
+import { Spinner } from "@/components/ui/spinner";
+import ImageChanger from "./image-changer";
 import useImageChanger from "../hooks/useImageChanger";
 
 interface ImageAndTextRendererProp {
@@ -16,16 +19,31 @@ const ImageAndTextRenderer: React.FC<ImageAndTextRendererProp> = ({
   onUpdate,
   onDelete,
 }) => {
-  const { imageRef, handleImageClick } = useImageChanger(section, onUpdate);
+  const { uploading, setUploading, imageRef, handleImageClick } =
+    useImageChanger(section.publicId);
+
   return (
     <>
       <div className="flex flex-col md:flex-row gap-6 items-start">
-        <input type="file" className="hidden" ref={imageRef} />
-        <img
-          src={section.url}
-          alt={section.title}
-          className="w-full min-h-[250px] md:w-1/3 rounded-lg shadow-md object-cover"
+        <ImageChanger
+          ref={imageRef}
+          setUploading={setUploading}
+          id={section.id}
+          onUpdate={onUpdate}
+          publicId={section.publicId}
         />
+        <div className="w-full min-h-[250px] md:w-1/3 rounded-lg overflow-hidden shadow-md relative">
+          {uploading && (
+            <div className="absolute inset-0">
+              <Spinner className="size-6" />
+            </div>
+          )}
+          <img
+            src={section.url}
+            alt={section.title}
+            className=" object-cover"
+          />
+        </div>
         <div className="flex-1">
           <input
             type="text"

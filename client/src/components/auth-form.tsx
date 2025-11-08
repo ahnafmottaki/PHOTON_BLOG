@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import React from "react";
 import GoogleLogin from "@/custom/GoogleLogin";
-import { Link, useNavigate } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import { ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
 import type { AxiosError, AxiosResponse } from "axios";
@@ -24,6 +24,8 @@ import axios from "axios";
 import isValid from "@/utils/isValid";
 import getErrorMessage from "@/utils/handle-api-error";
 import { useAuth } from "@/contexts/Auth/auth-context";
+import Loader from "@/custom/Loader";
+import reqWithLoader from "@/utils/req-with-loader";
 
 type AuthFromType = {
   className?: string;
@@ -40,9 +42,12 @@ export function AuthForm({
   ...props
 }: AuthFromType) {
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const location = useLocation();
+  const { setUser, isLoading } = useAuth();
   const [isSubmitting, setIsSubmitting] = React.useState<boolean>(false);
-
+  if (isLoading) {
+    return <Loader />;
+  }
   const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formDetails = Object.fromEntries(
@@ -54,27 +59,25 @@ export function AuthForm({
       }
     }
     setIsSubmitting(true);
-    toast.promise(
-      axios({
+    reqWithLoader({
+      request: {
         method: "post",
         url: `/auth/${loginForm ? "login" : "register"}`,
         data: formDetails,
         timeout: 3000,
-      }),
-      {
-        loading: loginForm ? "Logging in...." : "Registering....",
-        success: (response: AxiosResponse) => {
-          setUser(response.data.data);
-          setIsSubmitting(false);
-          navigate("/");
-          return `${loginForm ? "Login" : "Registration"} successful`;
-        },
-        error: (error: AxiosError) => {
-          setIsSubmitting(false);
-          return getErrorMessage(error);
-        },
-      }
-    );
+      },
+      loadingMsg: loginForm ? "Logging in...." : "Registering....",
+      onSuccess: (response: AxiosResponse) => {
+        navigate(location.state?.from ?? "/");
+        setUser(response.data.data);
+        setIsSubmitting(false);
+        return `${loginForm ? "Login" : "Registration"} successful`;
+      },
+      onError: (error: AxiosError) => {
+        setIsSubmitting(false);
+        return getErrorMessage(error);
+      },
+    });
   };
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">

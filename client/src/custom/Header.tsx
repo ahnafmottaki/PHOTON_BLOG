@@ -6,7 +6,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import MyNavLink from "./MyNavLink";
 import { useAuth } from "@/contexts/Auth/auth-context";
 import toast from "react-hot-toast";
-import axios from "axios";
+import { axiosSecure } from "./hooks/useAxiosEffect";
 
 const Header = () => {
   const { user, setUser } = useAuth();
@@ -18,7 +18,7 @@ const Header = () => {
 
   const handleLogout = () => {
     toast.promise(
-      axios({
+      axiosSecure({
         method: "post",
         url: "/auth/logout",
         data: null,

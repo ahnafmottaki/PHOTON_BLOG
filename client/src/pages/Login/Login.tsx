@@ -1,5 +1,4 @@
 import { AuthForm } from "@/components/auth-form";
-import axios from "axios";
 
 const Login = () => {
   return (

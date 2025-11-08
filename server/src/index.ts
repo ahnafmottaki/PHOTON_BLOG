@@ -9,6 +9,7 @@ import morgan from "morgan";
 import errorMiddleware from "./middleware/error-middleware";
 import notFound from "./middleware/not-found";
 import cookieParser from "cookie-parser";
+import cloudinarySignatureRouter from "./routes/cloudinary.route";
 
 // Load environment variables
 
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use("/api/auth", authRouter);
 app.use("/api/blogs", blogRouter);
+app.use("/api", cloudinarySignatureRouter);
 // Default route
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Express + TypeScript Server" });

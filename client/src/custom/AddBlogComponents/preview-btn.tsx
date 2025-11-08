@@ -1,8 +1,12 @@
 import { Button } from "@/components/ui/button";
 interface PreviewButtonProp {
   onPreview: () => void;
+  onPost: () => void;
 }
-export default function PreviewButton({ onPreview }: PreviewButtonProp) {
+export default function ActionButtons({
+  onPreview,
+  onPost,
+}: PreviewButtonProp) {
   return (
     <div className="mt-8 flex justify-end gap-3">
       <Button
@@ -12,7 +16,9 @@ export default function PreviewButton({ onPreview }: PreviewButtonProp) {
       >
         Preview Blog
       </Button>
-      <Button className=" font-bold rounded-lg shadow-md">Post</Button>
+      <Button onClick={onPost} className=" font-bold rounded-lg shadow-md">
+        Post
+      </Button>
     </div>
   );
 }
