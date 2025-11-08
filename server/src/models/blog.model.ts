@@ -5,7 +5,7 @@ interface Blog {
   author: ObjectId;
   comments: ObjectId[];
   likes: number;
-  disLikes: number;
+  dislikes: number;
   totalComments: number;
   updatedAt: Date;
   createdAt: Date;
@@ -17,7 +17,7 @@ class BlogModel implements Blog {
     public author: ObjectId,
     public comments: ObjectId[] = [],
     public likes: number = 0,
-    public disLikes: number = 0,
+    public dislikes: number = 0,
     public totalComments: number = 0,
     public updatedAt: Date = new Date(),
     public createdAt: Date = new Date()
@@ -31,7 +31,7 @@ class BlogModel implements Blog {
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       likes: this.likes,
-      disLikes: this.disLikes,
+      dislikes: this.dislikes,
       totalComments: this.totalComments,
       comments: this.comments,
     };

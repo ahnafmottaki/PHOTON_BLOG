@@ -4,7 +4,16 @@ const blogValidator: CreateCollectionOptions = {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      required: [],
+      required: [
+        "sections",
+        "author",
+        "comments",
+        "likes",
+        "dislikes",
+        "totalComments",
+        "updatedAt",
+        "createdAt",
+      ],
       description: "blog json schema",
       properties: {
         _id: {
@@ -22,7 +31,7 @@ const blogValidator: CreateCollectionOptions = {
                 bsonType: "object",
                 required: ["type", "text"],
                 properties: {
-                  type: { const: "heading" },
+                  type: { bsonType: "string", enum: ["heading"] },
                   text: {
                     bsonType: "string",
                     minLength: 10,
@@ -33,7 +42,7 @@ const blogValidator: CreateCollectionOptions = {
                 bsonType: "object",
                 required: ["type", "text"],
                 properties: {
-                  type: { const: "paragraph" },
+                  type: { bsonType: "string", enum: ["paragraph"] },
                   text: {
                     bsonType: "string",
                     minLength: 30,
@@ -44,7 +53,7 @@ const blogValidator: CreateCollectionOptions = {
                 bsonType: "object",
                 required: ["type", "url", "caption"],
                 properties: {
-                  type: { const: "image" },
+                  type: { bsonType: "string", enum: ["image"] },
                   caption: {
                     bsonType: "string",
                     minLength: 6,
@@ -58,7 +67,7 @@ const blogValidator: CreateCollectionOptions = {
                 bsonType: "object",
                 required: ["type", "url", "title", "paragraph"],
                 properties: {
-                  type: { const: "image-and-paragraph" },
+                  type: { bsonType: "string", enum: ["image-and-paragraph"] },
                   title: { bsonType: "string", minLength: 6 },
                   paragraph: { bsonType: "string", minLength: 30 },
                   url: { bsonType: "string" },

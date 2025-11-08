@@ -9,43 +9,49 @@ import Comments from "@/custom/ViewBlogComponents/comments";
 import Engagement from "@/custom/ViewBlogComponents/engagements";
 import { defaultBlog } from "@/utils/get-default-data-for-blog";
 import { getInitialDataForSection } from "@/utils/get-initial-data-for-blogs";
+import type { AxiosResponse } from "axios";
+import { useLoaderData } from "react-router";
 
 const sections = [
   {
-    id: "abc",
+    _id: "abc",
     type: SectionType.HEADING,
     ...getInitialDataForSection(SectionType.HEADING),
   },
   {
-    id: "efg",
+    _id: "efg",
     type: SectionType.PARAGRAPH,
     ...getInitialDataForSection(SectionType.PARAGRAPH),
   },
   {
-    id: "hij",
+    _id: "hij",
     type: SectionType.IMAGE,
     ...getInitialDataForSection(SectionType.PARAGRAPH),
   },
   {
-    id: "klm",
+    _id: "klm",
     type: SectionType.IMAGE_AND_TEXT,
     ...getInitialDataForSection(SectionType.IMAGE_AND_TEXT),
   },
 ] as BlogSection[];
 const ViewBlogPage = () => {
+  const {
+    data: { data },
+  } = useLoaderData<AxiosResponse<{ data: BlogType }>>();
+  console.log(data);
   return (
     <section className="row">
-      <ShowBlog sections={sections}>
+      <ShowBlog sections={data.sections}>
         <AuthorInfo author={defaultBlog.authorInfo} />
         <Engagement
-          likes={20}
-          dislikes={45}
+          likes={data.likes}
+          dislikes={data.dislikes}
           onLike={undefined}
           onDislike={undefined}
         />
 
         <Comments
-          comments={defaultBlog.comments}
+          comments={data.comments}
           onAddComment={() => {}}
           onLikeComment={() => {}}
           onDislikeComment={() => {}}

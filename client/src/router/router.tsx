@@ -1,3 +1,4 @@
+import { axiosSecure } from "@/custom/hooks/useAxiosEffect";
 import PrivatePage from "@/custom/PrivatePage";
 import RootLayout from "@/Layout/RootLayout";
 import AddBlog from "@/pages/AddBlog/AddBlog";
@@ -29,12 +30,13 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "viewBlog",
+        path: "viewBlog/:blogId",
         element: (
           <PrivatePage>
             <ViewBlogPage />
           </PrivatePage>
         ),
+        loader: ({ params }) => axiosSecure.get(`/blogs/${params.blogId}`),
       },
       { path: "blogs", element: <BlogsPage /> },
       {

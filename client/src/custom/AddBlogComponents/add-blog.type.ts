@@ -8,19 +8,19 @@ export const SectionType = {
 export type SectionLiterals = (typeof SectionType)[keyof typeof SectionType];
 
 export interface HeadingType {
-  id: string;
+  _id: string;
   type: typeof SectionType.HEADING;
   text: string;
 }
 
 export interface ParagraphType {
-  id: string;
+  _id: string;
   type: typeof SectionType.PARAGRAPH;
   text: string;
 }
 
 export interface ImageType {
-  id: string;
+  _id: string;
   type: typeof SectionType.IMAGE;
   url: string;
   caption: string;
@@ -28,7 +28,7 @@ export interface ImageType {
 }
 
 export interface ImageAndTextType {
-  id: string;
+  _id: string;
   type: typeof SectionType.IMAGE_AND_TEXT;
   url: string;
   title: string;

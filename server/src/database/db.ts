@@ -15,12 +15,13 @@ const client = new MongoClient(uri, {
 });
 const db = client.db("photon");
 const userCollection = db.collection("users");
-const blogCollection = db.collection("blogs", blogValidator);
+const blogCollection = db.collection("blogs");
 const commentCollection = db.collection("comments");
 
 export default async function connectDB() {
   try {
     await client.connect();
+    await db.createCollection("blogs", blogValidator);
     console.log("Connected to MongoDB");
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);

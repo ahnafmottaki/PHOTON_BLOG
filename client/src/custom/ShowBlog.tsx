@@ -41,7 +41,7 @@ const ShowBlog: React.FC<{
     <main className="row">
       <section className="bg-card  p-6 sm:p-10 rounded-xl shadow-xl">
         {sections.map((section) => (
-          <RenderSection key={section.id} section={section} />
+          <RenderSection key={section._id} section={section} />
         ))}
         <div className="my-10 border-t border-gray-200" />
         {children}
