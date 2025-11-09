@@ -11,15 +11,17 @@ const AuthorInfo: React.FC<AuthorInfoProps> = ({ author }) => {
     <div className="bg-muted p-6 rounded-lg my-10">
       <div className="flex items-center gap-6">
         <img
-          src={author.avatarUrl}
-          alt={author.name}
+          src={author.avatarUrl || "https://picsum.photos/id/1005/200/200"}
+          alt={author.username}
           className="w-20 h-20 rounded-full object-cover shadow-sm shrink-0"
         />
         <div>
           <h3 className="text-xl font-bold text-muted-foreground">
-            {author.name}
+            {author.username}
           </h3>
-          <p className="text-muted-foreground/80 mt-1">{author.bio}</p>
+          <p className="text-muted-foreground/80 mt-1">
+            {author.bio || "No bio is set to this user"}
+          </p>
         </div>
       </div>
       <div className="mt-4 pt-4 border-t border-border flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
@@ -38,7 +40,7 @@ const AuthorInfo: React.FC<AuthorInfoProps> = ({ author }) => {
         </div>
         <div className="flex items-center gap-2">
           <FileText className="h-5 w-5 text-accent-foreground/70" />
-          <span>{author.postsCount} Posts</span>
+          <span>{author.totalPosts} Posts</span>
         </div>
       </div>
     </div>

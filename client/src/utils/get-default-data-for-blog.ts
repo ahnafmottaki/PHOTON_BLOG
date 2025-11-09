@@ -6,7 +6,7 @@ export const defaultBlog: Omit<BlogType, "sections"> = {
   authorInfo: {
     name: "Alex Johnson",
     username: "alexj",
-    postsCount: 42,
+    totalPosts: 42,
     email: "alex.j@example.com",
     bio: "A passionate developer and writer exploring the intersection of technology, design, and human experience. Coffee enthusiast.",
     avatarUrl: "https://picsum.photos/id/1005/200/200",

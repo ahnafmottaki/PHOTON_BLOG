@@ -2,7 +2,7 @@ import { Request } from "express";
 import { JwtPayload } from "jsonwebtoken";
 
 export type AuthenticatedUser = {
-  id: string;
+  _id: string;
   username: string;
   email: string;
   role: "admin" | "user";

@@ -1,7 +1,6 @@
 import { useAuth } from "@/contexts/Auth/auth-context";
 import axios from "axios";
 import { useEffect } from "react";
-import toast from "react-hot-toast";
 
 const axiosSecure = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
@@ -18,7 +17,6 @@ const useAxiosEffect = () => {
       (error) => {
         if (error.response?.status === 401 || error.response?.status === 403) {
           setUser(null);
-          toast.error("log in again");
         }
         return Promise.reject(error);
       }

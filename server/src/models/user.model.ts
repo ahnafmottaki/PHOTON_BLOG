@@ -1,11 +1,10 @@
 import { ObjectId } from "mongodb";
-import BlogModel from "./blog.model";
 import { userCollection } from "../database/db";
 import bcrypt from "bcrypt";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import AppError from "../utils/AppError";
 
-interface User {
+export interface User {
   _id: ObjectId | null;
   username: string;
   email: string;

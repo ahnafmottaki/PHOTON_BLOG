@@ -8,12 +8,24 @@ interface EngagementProps {
   onDislike: (() => void) | undefined;
 }
 
+interface LikeDisLikeProp {
+  likes: number;
+  dislikes: number;
+}
+
 const Engagement: React.FC<EngagementProps> = ({
   likes,
   dislikes,
   onLike,
   onDislike,
 }) => {
+  const [engagements, setEngageMents] = React.useState<LikeDisLikeProp>({
+    likes,
+    dislikes,
+  });
+  const handleOnLike = () => {};
+
+  const handleOnDislike = () => {};
   return (
     <div className="flex items-center gap-6 my-8">
       <button

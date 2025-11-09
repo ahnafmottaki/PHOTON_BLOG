@@ -3,7 +3,7 @@ import type { BlogSection } from "../AddBlogComponents/add-blog.type";
 export interface Author {
   name: string;
   username: string;
-  postsCount: number;
+  totalPosts: number;
   email: string;
   bio: string;
   avatarUrl: string;

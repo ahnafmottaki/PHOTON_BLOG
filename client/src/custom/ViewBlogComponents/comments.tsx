@@ -15,9 +15,13 @@ const Comments: React.FC<CommentDynamicProps> = ({
   onDislikeComment,
   onLikeComment,
 }) => {
-  const [newComment, setNewComment] = React.useState("");
+  const [myComments, setMyComments] = React.useState(comments);
   const handleAddComment: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    const formDetails = Object.fromEntries(
+      new FormData(e.currentTarget).entries()
+    );
+    console.log(formDetails);
     if (onAddComment) {
       onAddComment("hello");
     }
@@ -77,16 +81,14 @@ const Comments: React.FC<CommentDynamicProps> = ({
           Leave a Comment
         </h3>
         <textarea
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
           placeholder="Write your comment here..."
           className="w-full p-3  border rounded-lg  transition duration-200"
+          name="comment"
           rows={4}
         />
         <button
           type="submit"
           className="mt-4 px-6 py-2 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/60 transition-colors duration-200 disabled:bg-primary/20 disabled:text-primary-foreground/50"
-          disabled={!newComment.trim()}
         >
           Post Comment
         </button>

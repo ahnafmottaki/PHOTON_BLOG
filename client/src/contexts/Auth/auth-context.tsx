@@ -2,7 +2,7 @@ import React from "react";
 import type { AuthProviderProps, AuthProviderState, User } from "./auth";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { axiosSecure } from "@/custom/hooks/useAxiosEffect";
+import { axiosSecure, useAxiosEffect } from "@/custom/hooks/useAxiosEffect";
 
 const initialState: AuthProviderState = {
   user: null,

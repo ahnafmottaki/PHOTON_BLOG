@@ -42,7 +42,7 @@ const ViewBlogPage = () => {
   return (
     <section className="row">
       <ShowBlog sections={data.sections}>
-        <AuthorInfo author={defaultBlog.authorInfo} />
+        <AuthorInfo author={data.authorInfo} />
         <Engagement
           likes={data.likes}
           dislikes={data.dislikes}

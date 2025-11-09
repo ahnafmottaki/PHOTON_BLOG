@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import { SectionArrayType } from "../schema/section.schema";
-interface Blog {
+export interface Blog {
+  _id: ObjectId;
   sections: SectionArrayType;
   author: ObjectId;
   comments: ObjectId[];
@@ -11,8 +12,8 @@ interface Blog {
   createdAt: Date;
 }
 class BlogModel implements Blog {
-  public id: null | ObjectId = null;
   constructor(
+    public _id: ObjectId,
     public sections: SectionArrayType,
     public author: ObjectId,
     public comments: ObjectId[] = [],
@@ -25,7 +26,7 @@ class BlogModel implements Blog {
 
   toJSON() {
     return {
-      ...(this.id ? { id: this.id } : {}),
+      _id: this._id,
       sections: this.sections,
       author: this.author,
       createdAt: this.createdAt,

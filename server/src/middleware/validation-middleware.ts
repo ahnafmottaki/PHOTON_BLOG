@@ -94,7 +94,6 @@ const validateInputs = (
           "Invalid Request";
         return next(new AppError(StatusCodes.BAD_REQUEST, errorMessage));
       }
-      console.log(result.data);
       next();
     }),
   ];

@@ -28,7 +28,7 @@ const ImageAndTextRenderer: React.FC<ImageAndTextRendererProp> = ({
         <ImageChanger
           ref={imageRef}
           setUploading={setUploading}
-          id={section.id}
+          id={section._id}
           onUpdate={onUpdate}
           publicId={section.publicId}
         />
@@ -49,13 +49,13 @@ const ImageAndTextRenderer: React.FC<ImageAndTextRendererProp> = ({
             type="text"
             value={section.title}
             onInput={(e: React.FormEvent<HTMLInputElement>) =>
-              onUpdate(section.id, { title: e.currentTarget.value })
+              onUpdate(section._id, { title: e.currentTarget.value })
             }
             className="w-full text-2xl font-semibold p-2 border-2 border-transparent focus:border-blue-500 rounded-md bg-transparent mb-2"
           />
           <textarea
             onInput={(e: React.FormEvent<HTMLTextAreaElement>) =>
-              onUpdate(section.id, {
+              onUpdate(section._id, {
                 paragraph: e.currentTarget.value,
               })
             }
@@ -64,7 +64,7 @@ const ImageAndTextRenderer: React.FC<ImageAndTextRendererProp> = ({
           />
         </div>
       </div>
-      <DeleteWrapper id={section.id} onDelete={onDelete}>
+      <DeleteWrapper id={section._id} onDelete={onDelete}>
         <Button
           onClick={handleImageClick}
           variant={"outline"}

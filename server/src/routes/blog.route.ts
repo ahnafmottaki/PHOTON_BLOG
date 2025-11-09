@@ -4,7 +4,7 @@ import { verifyToken } from "../middleware/verify-token";
 import { validateSectionInputs } from "../middleware/validation-middleware";
 const router = express.Router();
 
-router.get("/:blogId", verifyToken, getBlog);
-router.post("/", verifyToken, ...validateSectionInputs, addBlog);
+router.get("/:id", verifyToken, getBlog);
+router.post("/", ...validateSectionInputs, verifyToken, addBlog);
 
 export default router;
